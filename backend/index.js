@@ -7,6 +7,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import userRoute from "./routers/users.js"
 import authRoute from "./routers/auth.js"
+import postRoute from "./routers/post.js"
 const app = express();
 dotenv.config()
 mongoose.connect(process.env.MONGODB_URI)
@@ -27,6 +28,7 @@ app.use (helmet());
 
 app.use("/api/users", userRoute)
 app.use("/api/auth", authRoute)
+app.use("/api/posts", postRoute)
 // server setup
 const port = 4000;
 app.listen(port, ()=>{
