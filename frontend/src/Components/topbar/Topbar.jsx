@@ -3,17 +3,24 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import MessageIcon from "@mui/icons-material/Message";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Link } from "react-router-dom";
 function Topbar() {
   return (
     <>
       <div className="topbarContainer">
         <div className="leftTopbar">
-          <p className="logoTopbar">Lamasocial</p>
+          <Link to={"/"}  style={{ textDecoration: 'none' }}> 
+            <p className="logoTopbar">Lamasocial</p>
+          </Link>
         </div>
         <div className="middleTopbar">
           <div className="searchbar">
-            <SearchIcon className="searchIcon"/>
-            <input type="text" className="searchInput" placeholder="Search for Friend,post or video" />
+            <SearchIcon className="searchIcon" />
+            <input
+              type="text"
+              className="searchInput"
+              placeholder="Search for Friend,post or video"
+            />
           </div>
         </div>
         <div className="rightTopbar">
