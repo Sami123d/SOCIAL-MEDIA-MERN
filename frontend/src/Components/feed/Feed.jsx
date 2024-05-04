@@ -14,12 +14,12 @@ function Feed({ username }) {
             `http://localhost:4000/api/posts/profile/${username}`
           )
         : await axios.get(
-            "http://localhost:4000/api/posts/timeline/663204439bfa630a2967ac25"
+            "http://localhost:4000/api/posts/timeline/663204519bfa630a2967ac27"
           );
       setPosts(res.data);
     };
     fetchPosts();
-  }, []);
+  }, [username]);
   return (
     <>
       <div className="feed">

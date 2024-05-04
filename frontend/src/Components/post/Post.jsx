@@ -15,12 +15,12 @@ function Post({ post }) {
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
-        `http://localhost:4000/api/users/${post.userId}`
+        `http://localhost:4000/api/users?userId=${post.userId}`
       );
       setUser(res.data);
     };
     fetchUser();
-  }, []);
+  }, [post.userId]);
 
   return (
     <>
