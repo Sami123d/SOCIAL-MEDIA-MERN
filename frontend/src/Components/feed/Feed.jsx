@@ -4,14 +4,18 @@ import Post from "../post/Post";
 import Share from "../share/Share";
 import "./feed.css";
 
-function Feed() {
+function Feed({ username }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get(
-        "http://localhost:4000/api/posts/timeline/663204439bfa630a2967ac25"
-      );
+      const res = username
+        ? await axios.get(
+            `http://localhost:4000/api/posts/profile/${username}`
+          )
+        : await axios.get(
+            "http://localhost:4000/api/posts/timeline/663204439bfa630a2967ac25"
+          );
       setPosts(res.data);
     };
     fetchPosts();

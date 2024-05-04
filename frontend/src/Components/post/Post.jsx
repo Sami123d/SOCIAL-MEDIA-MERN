@@ -3,6 +3,7 @@ import { MoreVert } from "@mui/icons-material";
 import axios from "axios";
 import {format} from "timeago.js"
 import { useState, useEffect } from "react";
+import{Link} from "react-router-dom";
 function Post({ post }) {
   const [like, setLike] = useState(post.likes.length); //2
   const [isLiked, setIsLiked] = useState(false);
@@ -27,6 +28,7 @@ function Post({ post }) {
         <div className="postWrapper">
           <div className="postTop">
             <div className="postTopLeft">
+              <Link to={`/profile/${user.username}`}  style={{ textDecoration: 'none' }}>
               <img
                 src={
                   user.profilePicture ||
@@ -35,6 +37,8 @@ function Post({ post }) {
                 alt=""
                 className="postProfileImg"
               />
+              </Link>
+              
               <span className="postUserName">{user?.username}</span>
               <span className="postDate">{format(post.createdAt)}</span>
             </div>

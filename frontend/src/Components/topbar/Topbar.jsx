@@ -42,6 +42,7 @@ function Topbar() {
               <div className="rightIconsBadge">3</div>
             </div>
           </div>
+          <Link to="/profile/"></Link>
           <img
             src="/src/assets/Person/1.jpeg"
             className="rightImgTopbar"
