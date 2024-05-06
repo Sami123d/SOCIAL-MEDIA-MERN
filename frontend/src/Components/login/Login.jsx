@@ -2,10 +2,11 @@ import { useRef, useContext } from "react";
 import "./login.css";
 import {loginCall} from "../../apiCalls.js";
 import {AuthContext} from "../../context/AuthContext.jsx"
+import CircularProgress from '@mui/material/CircularProgress';
 function Login() {
   const { user, isFetching, dispatch } = useContext(AuthContext);
-  const email = useRef();
-  const password = useRef();
+  const email = useRef();  //useRef is used for Dom Manipulate
+  const password = useRef();    //useRef is used for Dom Manipulate
   const handleClick = (e) => {
     e.preventDefault();
     
@@ -13,7 +14,7 @@ function Login() {
       { email: email.current.value, password: password.current.value },
       dispatch
     );
-    console.log(user, password.current.value, email.current.value)
+    console.log(user)
   };
 
   return (
@@ -42,10 +43,10 @@ function Login() {
               type="password"
               className="loginInput"
             />
-            <button className="loginButton">Log In</button>
+            <button className="loginButton" disabled={isFetching}>{isFetching ? <CircularProgress  style={{color: "white"}} size={20}/> : "Log In"}</button>
             <span className="loginForgot">Forgot Password?</span>
             <button className="loginRegisterButton">
-              Create a New Account
+            {isFetching ? <CircularProgress  style={{color: "white"}} size={20}/> : "Create a New Account"}
             </button>
           </form>
         </div>
