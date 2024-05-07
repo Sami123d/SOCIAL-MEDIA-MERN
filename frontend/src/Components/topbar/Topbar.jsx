@@ -8,7 +8,6 @@ import { useContext } from "react";
 import {AuthContext} from "../../context/AuthContext"
 function Topbar() {
   const {user } = useContext(AuthContext)
-  console.log(user, "topbarr")
   return (
     <>
       <div className="topbarContainer">

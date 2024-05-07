@@ -10,16 +10,19 @@ function Post({ post }) {
   const [like, setLike] = useState(post.likes.length); //2
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
-  console.log(currentuser, "cvbnm")
   const likeHandler = () => {
     try{
      axios.put(`http://localhost:4000/api/posts/${post._id}/like`, {userId:  currentuser._id.$oid})
     }catch(err){
-
+        console.log(err)
     }
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+
+  useEffect(()=> {
+    setIsLiked(post.likes.includes(currentuser._id.$oid))
+  },[currentuser._id.$oid, post.likes]);
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
@@ -65,7 +68,7 @@ function Post({ post }) {
                 src="/src/assets/like.png"
                 onClick={likeHandler}
               ></img>
-              <img className="likeIcon" src="/src/assets/heart.png"></img>
+              <img className="likeIcon" onClick={likeHandler} src="/src/assets/heart.png"></img>
               <span className="postLikeCounter">{like} people like it</span>
             </div>
             <div className="postBottomRight">

@@ -8,6 +8,7 @@ import helmet from "helmet";
 import userRoute from "./routers/users.js"
 import authRoute from "./routers/auth.js"
 import postRoute from "./routers/post.js"
+import path from "node:path"
 const app = express();
 dotenv.config()
 mongoose.connect(process.env.MONGODB_URI)
@@ -26,6 +27,22 @@ app.use(morgan("common"));
 app.use (helmet());
 // jo bhi chez hoti hai vo app.use se guzarti hai 
 
+// share.jsx form work
+const storage = multer.diskStorage({destination: (req, file, cb)=> {
+  cb(null, "public/images");
+},
+filename: (req, file, cb) => {
+  cb(null, req.body.name);
+},})
+const upload = multer({ storage: storage });
+
+app.post("/api/upload", upload.single("file"), (req,res)=>{
+  try{
+    return res.status(200).json("file uploaded successfully")
+  }catch(err){
+    console.log(err)
+  }
+} )
 app.use("/api/users", userRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/posts", postRoute)
