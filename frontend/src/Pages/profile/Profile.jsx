@@ -3,11 +3,13 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import Topbar from "../../Components/topbar/Topbar";
 import "./profile.css";
 import Rightbar from "../../Components/rightbar/Rightbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function Profile() {
+  const {users}=useContext(AuthContext) 
   const params = useParams()
   const username = params.username;
   
@@ -20,7 +22,7 @@ function Profile() {
       setUser(res.data);
     };
     fetchUser();
-  }, []);
+  }, [username]);
   return (
     <>
       <Topbar />

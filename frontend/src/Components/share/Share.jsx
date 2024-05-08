@@ -4,31 +4,43 @@ import { PermMedia, Label, Room, EmojiEmotions } from "@mui/icons-material";
 import { AuthContext } from "../../context/AuthContext";
 import {Link} from  "react-router-dom";
 import { useContext, useRef, useState } from "react";
+import useUploadImage from "../../../customHook/photos.jsx"
 function Share() {
+  const [loading, setLoading] = useState(false)
   const {user} = useContext(AuthContext);
   const descr = useRef();
-  const [File, setFile] = useState(null);
+  const [file, setFile] = useState(null);
   const SubmitHandler = async (e) => {
     e.preventDefault();
     const newPost = {
       userId: user._id.$oid,
-      desc: descr.current.value
-    }
-    if (File) {
-      const data = new FormData();
-      const fileName = Date.now() + File.name;
-      data.append("name", fileName);
-      data.append("file", File);
-      newPost.img = fileName;
-      console.log(newPost);
-      try {
-        await axios.post("/upload", data);
-      } catch (err) {}
+      desc: descr.current.value,
+      img: file? file : " ",
     }
     try{
       const res  = await axios.post("http://localhost:4000/api/posts/", newPost);
+      window.location.reload()
       console.log(res.data)
     }catch(err){console.log(err, "ewror")}
+  }
+  const uploadImg = async (userFileImg) => {
+    try {
+
+      console.log("userFileImg", userFileImg);
+      setLoading(!loading)
+      const imgUrl = await useUploadImage(userFileImg, userFileImg.name)
+      setFile(imgUrl)
+      console.log(setFile(imgUrl)," img, urlll")
+
+      console.log("file", file);
+      setFile(prevUrl => {
+        console.log("Updated file state:", prevUrl); // This will log the updated state
+        setLoading(false)
+        return imgUrl;
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <div className="share">
@@ -55,7 +67,7 @@ function Share() {
             <label htmlFor="file" style={{cursor: "pointer"}} className="shareOption">
               <PermMedia htmlColor="tomato" />
               <span className="shareOptionText">Photo or video</span>
-              <input style={{display: "none"}}type="file" id="file" accept=".png, .jpeg, .jpg" onChange={(e)=> {setFile(e.target.files[0])}}/>
+              <input style={{display: "none"}}type="file" id="file" accept=".png, .jpeg, .jpg" onChange={(e)=> {uploadImg(e.target.files[0])}}/>
             </label>
             <div className="shareOption">
               <Label htmlColor="blue" />
