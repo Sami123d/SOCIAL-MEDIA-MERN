@@ -26,46 +26,40 @@ Router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-     return res.status(404).json("email not found");
+      return res.status(404).json("email not found");
     }
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    
-    if(!validPassword){return res.status(400).json("pas not match")}
-   
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    if (!validPassword) {
+      return res.status(400).json("pas not match");
+    }
+
     res.status(200).json(user);
   } catch (Err) {
-    res.status(500).json(Err)
+    res.status(500).json(Err);
   }
 });
 
 export default Router;
 
-
-// Router.post("/login", async (req, res) => {
-//   try {
-//     const user = await User.findOne({ email: req.body.email });
-//     if (!user) {
-//       // To avoid exposing information, respond with a generic error message
-//       return res.status(400).json({ error: "Invalid email or password" });
-//     }
-
-//     // Compare passwords
-//     const validPassword = await bcrypt.compare(
-//       req.body.password,
-//       user.password
-//     );
-
-//     if (!validPassword) {
-//       // To avoid exposing information, respond with a generic error message
-//       return res.status(400).json({ error: "Invalid email or password" });
-//     }
-
-//     // Respond with user data
-//     res.status(200).json(user);
-//   } catch (error) {
-//     // Handle errors
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-// export default Router;
+// FORGOT PASSWORD
+Router.post("/forgot-password", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    console.log("user found", user.password, user.username);
+    if (!user) {
+      res.status(300).json("user not found");
+    }
+    const newPassword = req.body.password;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    user.save();
+    res.status(200).json("password updated successfully")
+  } catch (err) {
+    res.status(300).json(err)
+  }
+});

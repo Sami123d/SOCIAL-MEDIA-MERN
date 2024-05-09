@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import "./register.css";
 import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Register() {
   const username = useRef();
   const email = useRef();
@@ -24,7 +24,7 @@ export default function Register() {
        try{
      const res = await axios.post("http://localhost:4000/api/auth/register", user)
      navigate("/login");
-       console.log(user)
+       console.log("registered")
     }catch(err){
         console.log(err)
     }
@@ -49,7 +49,10 @@ export default function Register() {
             <input placeholder="Password Again"  required ref={passwordAgain} className="loginInput" />
             <button className="loginButton" type="submit" >Sign Up</button>
             <button className="loginRegisterButton">
+              <Link to={"/login"} style={{textDecoration: "none", color: "white"}}>
               Log into Account
+              </Link>
+              
             </button>
           </form>
         </div>

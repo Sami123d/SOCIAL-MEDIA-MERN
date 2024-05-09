@@ -8,12 +8,20 @@ import { useContext } from "react";
 import {AuthContext} from "../../context/AuthContext"
 function Topbar() {
   const {user } = useContext(AuthContext)
+  const signOutHandler = () => {
+    console.log("Running");
+    localStorage.removeItem("user");
+    // navigate("/login");
+    <Link to={`/login`}  style={{ textDecoration: 'none' }}/> // This should navigate to the '/login' route
+    window.location.reload()
+}
   return (
     <>
       <div className="topbarContainer">
         <div className="leftTopbar">
           <Link to={"/"}  style={{ textDecoration: 'none' }}> 
             <p className="logoTopbar">Lamasocial</p>
+            <button onClick={signOutHandler}>log out</button>
           </Link>
         </div>
         <div className="middleTopbar">

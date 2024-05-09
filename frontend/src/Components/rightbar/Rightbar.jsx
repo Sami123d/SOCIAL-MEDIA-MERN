@@ -11,11 +11,12 @@ function Rightbar({ user }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(currentUser.followings.includes(user?.id));
   const [friends, setFriends] = useState([]);
-console.log(user ,"useerr")
+
   useEffect(() => {
     setFollowed(currentUser.followings.includes(user?._id));
   }, [currentUser, user?._id]);
   useEffect(() => {
+
     const getFriends = async () => {
       try {
         const friendsList = await axios.get(
@@ -27,6 +28,7 @@ console.log(user ,"useerr")
       }
     };
     getFriends();
+    
   }, [user]);
   const Homerightbar = () => {
     return (

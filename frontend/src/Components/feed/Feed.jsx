@@ -13,7 +13,7 @@ function Feed({ username }) {
       const res = username
         ? await axios.get(`http://localhost:4000/api/posts/profile/${username}`)
         : await axios.get(
-            `http://localhost:4000/api/posts/timeline/${user._id.$oid}`
+            `http://localhost:4000/api/posts/timeline/${user._id}`
           );
       setPosts(
         res.data.sort((p1, p2) => {
@@ -22,7 +22,7 @@ function Feed({ username }) {
       );
     };
     fetchPosts();
-  }, [username, user._id.$oid]);
+  }, [username, user._id]);
   return (
     <>
       <div className="feed">
